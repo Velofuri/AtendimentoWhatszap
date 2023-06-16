@@ -1,0 +1,7 @@
+USE ATENDIMENTO;
+
+CREATE TABLE AW0 (
+    AW0_protocolo VARCHAR(15) PRIMARY KEY,
+    AW0_nome_contato varchar(100),
+    AW0_numero_contato varchar(15),
+    AW0_mensagens JSON);
