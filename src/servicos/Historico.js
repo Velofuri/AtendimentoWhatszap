@@ -35,22 +35,43 @@ class Historico {
     return protocolos;
   }
 
-  static async inserTableAW0(protocolo, nome_contato, numero_contato, mensagens) {
-    const sql =
-      'INSERT INTO aw0 (AW0_protocolo, AW0_nome_contato, AW0_numero_contato, AW0_mensagens) VALUES (?,?,?,?)';
-    const values = [protocolo, nome_contato, numero_contato, mensagens];
-    connection.query(sql, values, (error, results) => {
-      if (error) {
-        return console.log(`Erro ao salvar o protocolo ${protocolo} no banco de dados: ${error.message}`);
+  static async inserTableAW0(dados) {
+    try {
+      await connection.promise().beginTransaction();
+      for (const dado of dados) {
+        const query =
+          'INSERT INTO aw0 (AW0_protocolo, AW0_nome_contato, AW0_numero_contato, AW0_mensagens) VALUES (?, ?, ?, ?)';
+        await connection
+          .promise()
+          .execute(query, [
+            dado.protocolo,
+            dado.nome_contato,
+            dado.numero_contato,
+            dado.mensagens,
+          ]);
       }
-      return console.log(`Protocolo ${protocolo} salvo no banco de dados com sucesso.`);
-    });
+      await connection.promise().commit();
+      console.log('Todos os dados foram inseridos com sucesso.');
+      return true;
+    } catch (error) {
+      await connection.promise().rollback();
+      throw new Error(
+        'Ocorreu um erro durante a inserção, nenhum dado foi salvo no banco de dados. Erro: ' +
+          error.message
+      );
+    } finally {
+      connection.end;
+    }
   }
 
   static async salvaHistoricoPorData(dataInicial, dataFinal) {
     try {
       const token = await getToken();
-      const protocolos = await Historico.buscarProtocolosPorData(dataInicial, dataFinal, token);
+      const protocolos = await Historico.buscarProtocolosPorData(
+        dataInicial,
+        dataFinal,
+        token
+      );
       const numeroProtocolos = protocolos.list.map((itens) => itens.protocol);
       const nomeContato = protocolos.list.map((itens) => itens.contact.name);
       const numeroContato = protocolos.list.map((itens) => itens.contact.number);
@@ -59,7 +80,10 @@ class Historico {
       let index = 0;
 
       for (const iterator of numeroProtocolos) {
-        const backupPorProtocolo = await Historico.buscarHistoricoDeMensagem(iterator, token);
+        const backupPorProtocolo = await Historico.buscarHistoricoDeMensagem(
+          iterator,
+          token
+        );
         const textoDaMensagem = backupPorProtocolo.historic.map((item) => {
           return {
             by: item.by,
@@ -75,16 +99,10 @@ class Historico {
         };
         historicosSalvos.push(historico);
         index++;
-
-        await Historico.inserTableAW0(
-          historico.protocolo,
-          historico.nome_contato,
-          historico.numero_contato,
-          JSON.stringify(historico.mensagens)
-        );
       }
+      await Historico.inserTableAW0(historicosSalvos);
 
-      return { success: true, message: 'Salvo no banco' };
+      return { success: true, message: 'Todos os dados foram inseridos com sucesso.' };
     } catch (error) {
       return { success: false, message: error.message };
     }
