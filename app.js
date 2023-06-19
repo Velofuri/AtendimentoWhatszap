@@ -1,5 +1,5 @@
 import express from 'express';
-import router from './src/routes/historicoRotas.js';
+import router from './src/routes/historicoRoutes.js';
 
 const app = express();
 const port = 3000;

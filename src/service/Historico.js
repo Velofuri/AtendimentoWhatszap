@@ -59,8 +59,6 @@ class Historico {
         'Ocorreu um erro durante a inserção, nenhum dado foi salvo no banco de dados. Erro: ' +
           error.message
       );
-    } finally {
-      connection.end;
     }
   }
 
@@ -72,16 +70,16 @@ class Historico {
         dataFinal,
         token
       );
-      const numeroProtocolos = protocolos.list.map((itens) => itens.protocol);
+      const todosProtocolos = protocolos.list.map((itens) => itens.protocol);
       const nomeContato = protocolos.list.map((itens) => itens.contact.name);
       const numeroContato = protocolos.list.map((itens) => itens.contact.number);
 
       let historicosSalvos = [];
       let index = 0;
 
-      for (const iterator of numeroProtocolos) {
+      for (const numeroProtocolo of todosProtocolos) {
         const backupPorProtocolo = await Historico.buscarHistoricoDeMensagem(
-          iterator,
+          numeroProtocolo,
           token
         );
         const textoDaMensagem = backupPorProtocolo.historic.map((item) => {
@@ -91,13 +89,13 @@ class Historico {
             created_at: item.created_at,
           };
         });
-        const historico = {
-          protocolo: iterator,
+        const historicoPorProtocolo = {
+          protocolo: numeroProtocolo,
           nome_contato: nomeContato[index],
           numero_contato: numeroContato[index],
           mensagens: textoDaMensagem,
         };
-        historicosSalvos.push(historico);
+        historicosSalvos.push(historicoPorProtocolo);
         index++;
       }
       await Historico.inserTableAW0(historicosSalvos);
