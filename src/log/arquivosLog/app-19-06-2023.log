@@ -1,0 +1,70 @@
+{
+  "Success": {
+    "data_hora": "19/06/2023, 09:48:42",
+    "Mensagem": {
+      "success": true,
+      "message": "Dados salvos no banco de dados"
+    }
+  }
+}
+{
+  "Success": {
+    "data_hora": "19/06/2023, 09:50:28",
+    "Mensagem": "Dados salvos no banco de dados"
+  }
+}
+{
+  "Erro": {
+    "data_hora": "19/06/2023, 09:50:28",
+    "Mensagem": "Ocorreu um erro de inserção, verifique e tente novamente. Erro: Duplicate entry '0806237EB1A' for key 'aw0.PRIMARY'"
+  }
+}
+{
+  "Success": {
+    "data_hora": "19/06/2023, 09:52:51",
+    "Mensagem": "Dados salvos no banco de dados"
+  }
+}
+{
+  "Success": {
+    "data_hora": "19/06/2023, 09:52:51",
+    "Mensagem": "Dados salvos no banco de dados"
+  }
+}
+{
+  "Success": {
+    "data_hora": "19/06/2023, 09:52:51",
+    "Mensagem": "Dados salvos no banco de dados"
+  }
+}
+{
+  "Success": {
+    "data_hora": "19/06/2023, 09:58:03",
+    "Mensagem": "Protocolos 130623A7D9E,1306236FA67,130623BD84A,130623A6650,130623FDF4D,13062341691,1306236B40F,1306235DB4D,13062398A31,130623B7D67,13062314BA1,130623774D3,130623A3561,130623E3219,13062365259,130623ECC1F,130623488D6,1306238DB44,130623676C4,130623F6931,1306238554C,130623419D8,13062386620,13062355DA5,13062370533,1306236059B,130623BA6E4 salvos no banco de dados"
+  }
+}
+{
+  "Success": {
+    "data_hora": "19/06/2023, 10:00:17",
+    "Mensagem": "Protocolos [object Object] salvos no banco de dados"
+  }
+}
+{
+  "Success": {
+    "data_hora": "19/06/2023, 10:02:11",
+    "Mensagem": "Protocolos 0106236E5A3,010623E6D7C,01062310688,0106239918F,0106238DC6A,0106235C89F,0106235884E,010623977C8,01062314360,0106231A58A,0106234E697,01062338A06,010623A7AE7,01062319697,0106239D1D3,010623741B7,01062381589,010623BC889,0106232FC99,0106230FB48,01062387D57,010623F43BB,0106230055D,010623FA803,010623840C0,0106235D372,010623A902B,010623DA98C,01062373CB0,010623F929E salvos no banco de dados"
+  }
+}
+{
+  "Erro": {
+    "data_hora": "19/06/2023, 10:09:04",
+    "Erro": "getaddrinfo ENOTFOUND localhos",
+    "Mensagem": "Falha na conexão com o banco de dados "
+  }
+}
+{
+  "Erro": {
+    "data_hora": "19/06/2023, 10:09:32",
+    "Erro": "Ocorreu um erro de inserção, verifique e tente novamente. Erro: Duplicate entry '0806237EB1A' for key 'aw0.PRIMARY'"
+  }
+}

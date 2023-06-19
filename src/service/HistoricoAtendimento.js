@@ -1,7 +1,8 @@
 import { getToken } from './getToken.js';
 import connection from '../model/db.js';
+import { logError, logSistema } from '../log/log.js';
 
-class Historico {
+class HistoricoAtendimento {
   static async buscarHistoricoDeMensagem(protocolo, token) {
     const response = await fetch(
       `https://api.sac.digital/v2/client/protocol/messages?protocol=${protocolo}`,
@@ -56,16 +57,15 @@ class Historico {
     } catch (error) {
       await connection.promise().rollback();
       throw new Error(
-        'Ocorreu um erro durante a inserção, nenhum dado foi salvo no banco de dados. Erro: ' +
-          error.message
+        'Ocorreu um erro de inserção, verifique e tente novamente. Erro: ' + error.message
       );
     }
   }
 
-  static async salvaHistoricoPorData(dataInicial, dataFinal) {
+  static async salvarHistoricoPorData(dataInicial, dataFinal) {
     try {
       const token = await getToken();
-      const protocolos = await Historico.buscarProtocolosPorData(
+      const protocolos = await HistoricoAtendimento.buscarProtocolosPorData(
         dataInicial,
         dataFinal,
         token
@@ -78,7 +78,7 @@ class Historico {
       let index = 0;
 
       for (const numeroProtocolo of todosProtocolos) {
-        const backupPorProtocolo = await Historico.buscarHistoricoDeMensagem(
+        const backupPorProtocolo = await HistoricoAtendimento.buscarHistoricoDeMensagem(
           numeroProtocolo,
           token
         );
@@ -98,13 +98,15 @@ class Historico {
         historicosSalvos.push(historicoPorProtocolo);
         index++;
       }
-      await Historico.inserTableAW0(historicosSalvos);
+      await HistoricoAtendimento.inserTableAW0(historicosSalvos);
 
-      return { success: true, message: 'Todos os dados foram inseridos com sucesso.' };
+      logSistema(`Protocolos salvos no banco de dados: ${todosProtocolos} `);
+      return { success: true, message: 'Dados salvos no banco de dados.' };
     } catch (error) {
+      logError(error);
       return { success: false, message: error.message };
     }
   }
 }
 
-export default Historico;
+export default HistoricoAtendimento;
