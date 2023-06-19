@@ -1,4 +1,4 @@
-import Historico from '../servicos/Historico.js';
+import Historico from '../service/Historico.js';
 
 class HistoricoControler {
   static buscaHistorico = async (req, res) => {

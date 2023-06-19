@@ -7,4 +7,12 @@ const connection = mysql.createConnection({
   database: 'atendimento'
 });
 
+connection.connect((error) => {
+  if (error) {
+    console.error('Falha na conexão com o banco de dados \n' + error);
+  } else {
+    console.log("Conetado com sucesso ao banco de dados");
+  }
+});
+
 export default connection;
