@@ -1,6 +1,7 @@
 import { getToken } from './getToken.js';
 import connection from '../model/db.js';
 import { logError, logSistema } from '../log/log.js';
+import { salvarImagem } from "./salvarImagem.js";
 
 class HistoricoAtendimento {
   static async buscarHistoricoDeMensagem(protocolo, token) {
@@ -87,6 +88,8 @@ class HistoricoAtendimento {
             by: item.by,
             text: item.text,
             created_at: item.created_at,
+            imageSAC: item.image,
+            image: salvarImagem(item.imagem, (numeroProtocolo + item.created_at))
           };
         });
         const historicoPorProtocolo = {
@@ -98,10 +101,11 @@ class HistoricoAtendimento {
         historicosSalvos.push(historicoPorProtocolo);
         index++;
       }
-      await HistoricoAtendimento.inserTableAW0(historicosSalvos);
+      // await HistoricoAtendimento.inserTableAW0(historicosSalvos);
 
       logSistema(`Protocolos salvos no banco de dados: ${todosProtocolos} `);
-      return { success: true, message: 'Dados salvos no banco de dados.' };
+      // return { success: true, message: 'Dados salvos no banco de dados.' };
+      return historicosSalvos
     } catch (error) {
       logError(error);
       return { success: false, message: error.message };
