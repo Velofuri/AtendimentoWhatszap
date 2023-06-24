@@ -10,7 +10,7 @@
 - [Licença](#licenca)
 - [Contato](#contato)
 
-## ✨ Funcionalidades (#funcionalidades)
+## ✨ Funcionalidades {#funcionalidades}
 
 A API possui as seguintes funcionalidades principais:
 
@@ -97,7 +97,7 @@ git push origin minha-feature
 
 Ainda não implementado
 
-## 📧 Contato {#contato}
+<a id="contato"></a>## 📧 Contato
 
 Se você tiver alguma dúvida ou sugestão em relação a este projeto, entre em contato com velofuri@gmail.com
 
