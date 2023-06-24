@@ -1,2 +1,4 @@
 node_modules
-arquivosLog
+src/log/arquivosLog
+src/imagens/
+.env

@@ -1,5 +1,11 @@
 import mysql from 'mysql2';
 import { logError } from '../log/log.js';
+import 'dotenv/config';
+
+const host = process.env.HOST;
+const user = process.env.USER;
+const password = process.env.PASSWORD_DB;
+const database = process.env.DATABASE;
 
 const host = process.env.HOST;
 const user = process.env.USER;
