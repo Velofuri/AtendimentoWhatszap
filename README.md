@@ -10,7 +10,7 @@
 - [Licença](#licença)
 - [Contato](#contato)
 
-## ✨ Funcionalidades
+## ✨ Funcionalidades {#funcionalidades}
 
 A API possui as seguintes funcionalidades principais:
 
@@ -22,7 +22,7 @@ A API possui as seguintes funcionalidades principais:
 
 🔍 Rota de consulta: A API fornece uma rota para consultar as informações armazenadas no banco de dados.
 
-## ⚙️ Configuração
+## ⚙️ Configuração {#configuração}
 
 Siga as etapas abaixo para configurar o projeto em seu ambiente local:
 
@@ -55,14 +55,14 @@ npm start
 
 8. **A API estará disponível localmente em `http://localhost:3000`.**
 
-## 🛣️ Rotas
+## 🛣️ Rotas {#rotas}
 
 A API possui as seguintes rotas disponíveis:
 
 - **`GET /atendimento/backup/historico`**: Executa o backup dos dados da API externa e os salva no banco de dados.
 - **`GET /atendimento/historico/:protocolo`**: Retorna as informações por protocolo, armazenadas no banco de dados.
 
-## 🗺️ Roadmap
+## 🗺️ Roadmap {#roadmap}
 
 A seguir, estão as próximas etapas planejadas para o desenvolvimento deste projeto:
 
@@ -72,7 +72,7 @@ A seguir, estão as próximas etapas planejadas para o desenvolvimento deste pro
 - Adicionar documentação detalhada sobre as rotas da API.
 - adicionar novas rotas de consulta 
 
-## 🤝 Contribuição
+## 🤝 Contribuição {#contribuição}
 
 As contribuições para o projeto são bem-vindas. Se você deseja contribuir, siga as etapas abaixo:
 
@@ -93,11 +93,11 @@ git push origin minha-feature
 ```
 5. Abra um pull request no repositório original.
 
-## 📄 Licença
+## 📄 Licença {#licença}
 
 Ainda não implementado
 
-## 📧 Contato
+## 📧 Contato {#contato}
 
 Se você tiver alguma dúvida ou sugestão em relação a este projeto, entre em contato com velofuri@gmail.com
 
