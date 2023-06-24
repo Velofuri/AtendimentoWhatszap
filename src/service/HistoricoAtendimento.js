@@ -1,7 +1,7 @@
 import { getToken } from './getToken.js';
 import connection from '../model/db.js';
 import { logError, logSistema } from '../log/log.js';
-import { salvarImagem } from "./salvarImagem.js";
+import { salvarImagem } from './salvarImagem.js';
 
 class HistoricoAtendimento {
   static async buscarHistoricoDeMensagem(protocolo, token) {
@@ -64,6 +64,7 @@ class HistoricoAtendimento {
   }
 
   static async salvarHistoricoPorData(dataInicial, dataFinal) {
+    const dataAtual = new Date();
     try {
       const token = await getToken();
       const protocolos = await HistoricoAtendimento.buscarProtocolosPorData(
@@ -83,15 +84,15 @@ class HistoricoAtendimento {
           numeroProtocolo,
           token
         );
-        const textoDaMensagem = backupPorProtocolo.historic.map((item) => {
+        const textoDaMensagem = await Promise.all(backupPorProtocolo.historic.map(async(item) => {
           return {
             by: item.by,
             text: item.text,
             created_at: item.created_at,
             imageSAC: item.image,
-            image: salvarImagem(item.imagem, (numeroProtocolo + item.created_at))
+            image: await salvarImagem(item.image, `${numeroProtocolo}`),
           };
-        });
+        }));
         const historicoPorProtocolo = {
           protocolo: numeroProtocolo,
           nome_contato: nomeContato[index],
@@ -101,11 +102,51 @@ class HistoricoAtendimento {
         historicosSalvos.push(historicoPorProtocolo);
         index++;
       }
-      // await HistoricoAtendimento.inserTableAW0(historicosSalvos);
+      await HistoricoAtendimento.inserTableAW0(historicosSalvos);
 
       logSistema(`Protocolos salvos no banco de dados: ${todosProtocolos} `);
       // return { success: true, message: 'Dados salvos no banco de dados.' };
       return historicosSalvos
+    } catch (error) {
+      logError(error);
+      return { success: false, message: error.message };
+    }
+  }
+  static async salvarHistoricoPorprotocolo(protocolo) {
+    const dataAtual = new Date();
+    try {
+      const token = await getToken();
+
+      let historicosSalvos = [];
+      let index = 0;
+
+      const backupPorProtocolo = await HistoricoAtendimento.buscarHistoricoDeMensagem(
+        protocolo,
+        token
+      );
+      const textoDaMensagem = await Promise.all(
+        backupPorProtocolo.historic.map(async (item) => {
+          return {
+            by: item.by,
+            text: item.text,
+            created_at: item.created_at,
+            imageSAC: item.image,
+            image: await salvarImagem(item.image, `${protocolo}-${dataAtual.getTime()}`),
+          };
+        })
+      );
+      const historicoPorProtocolo = {
+        protocolo: protocolo,
+        mensagens: textoDaMensagem,
+      };
+      historicosSalvos.push(historicoPorProtocolo);
+      index++;
+
+      // await HistoricoAtendimento.inserTableAW0(historicosSalvos);
+
+      logSistema(`Protocolos salvos no banco de dados: ${protocolo} `);
+      // return { success: true, message: 'Dados salvos no banco de dados.' };
+      return historicosSalvos;
     } catch (error) {
       logError(error);
       return { success: false, message: error.message };

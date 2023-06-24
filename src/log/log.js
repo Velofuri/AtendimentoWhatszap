@@ -1,10 +1,20 @@
 import fs from 'fs';
+import path from "path";
+import url from 'url'
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const dataAtual = new Date()
   .toLocaleDateString('pt-BR', { timeZone: 'UTC' })
   .replace(/\//g, '-');
 
-const caminhoArquivoLog = `./src/log/arquivosLog/app-${dataAtual}.log`;
+// const caminhoArquivoLog = `./src/log/arquivosLog/app-${dataAtual}.log`;
+const diretorio = path.join(__dirname, 'arquivosLog')
+if (!fs.existsSync(diretorio)) {
+  fs.mkdirSync(diretorio);
+}
+const caminhoArquivoLog = path.join(diretorio, `app-${dataAtual}.log` );
 
 const dataHora = new Date().toLocaleString('pt-BR', { timezone: 'UTC' });
 
