@@ -3,11 +3,11 @@
 **🚀 Uma API para consumo de dados de API externa e armazenamento em banco de dados.**
 
 - [Funcionalidades](#funcionalidades)
-- [Configuração](#configuração)
+- [Configuração](#configuracao)
 - [Rotas](#rotas)
 - [Roadmap](#roadmap)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
+- [Contribuição](#contribuicao)
+- [Licença](#licenca)
 - [Contato](#contato)
 
 ## ✨ Funcionalidades {#funcionalidades}
@@ -22,7 +22,7 @@ A API possui as seguintes funcionalidades principais:
 
 🔍 Rota de consulta: A API fornece uma rota para consultar as informações armazenadas no banco de dados.
 
-## ⚙️ Configuração {#configuração}
+## ⚙️ Configuração {#configuracao}
 
 Siga as etapas abaixo para configurar o projeto em seu ambiente local:
 
@@ -72,7 +72,7 @@ A seguir, estão as próximas etapas planejadas para o desenvolvimento deste pro
 - Adicionar documentação detalhada sobre as rotas da API.
 - adicionar novas rotas de consulta 
 
-## 🤝 Contribuição {#contribuição}
+## 🤝 Contribuição {#contribuicao}
 
 As contribuições para o projeto são bem-vindas. Se você deseja contribuir, siga as etapas abaixo:
 
@@ -93,7 +93,7 @@ git push origin minha-feature
 ```
 5. Abra um pull request no repositório original.
 
-## 📄 Licença {#licença}
+## 📄 Licença {#licenca}
 
 Ainda não implementado
 
