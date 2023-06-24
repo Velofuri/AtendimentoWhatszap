@@ -10,7 +10,7 @@
 - [Licença](#licenca)
 - [Contato](#contato)
 
-<a id="funcionalidades"></a> ## ✨ Funcionalidades
+## <a id="funcionalidades"></a> ✨ Funcionalidades
 
 A API possui as seguintes funcionalidades principais:
 
