@@ -1,11 +1,17 @@
 import mysql from 'mysql2';
 import { logError } from '../log/log.js';
+import 'dotenv/config';
+
+const host = process.env.HOST;
+const user = process.env.USER;
+const password = process.env.PASSWORD_DB;
+const database = process.env.DATABASE;
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'backup_atendimento',
+  host: host,
+  user: user,
+  password: password,
+  database: database,
 });
 
 connection.connect((error) => {
