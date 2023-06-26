@@ -1,7 +1,7 @@
 import { getToken } from './getToken.js';
 import connection from '../model/db.js';
 import { logError, logSistema } from '../log/log.js';
-import { salvarImagem } from './salvarImagem.js';
+import { salvarImagem, salvarVideo, salvarAudio } from './salvarArquivos.js';
 
 class HistoricoAtendimento {
   static async buscarHistoricoDeMensagem(protocolo, token) {
@@ -91,6 +91,10 @@ class HistoricoAtendimento {
             created_at: item.created_at,
             imageSAC: item.image,
             image: await salvarImagem(item.image, `${numeroProtocolo}`),
+            videoSAC: item.video,
+            video: await salvarVideo(item.video, `${numeroProtocolo}`),
+            audioSAC: item.audio,
+            audio: await salvarAudio(item.audio, `${numeroProtocolo}`)
           };
         }));
         const historicoPorProtocolo = {
