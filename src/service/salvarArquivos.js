@@ -2,11 +2,50 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import url from 'url';
+import AWS from 'aws-sdk';
+import 'dotenv/config';
+
+const accessKeyId = process.env.S3_ACCESSKEYID;
+const secretAccessKey = process.env.S3_SECRETACCESSKEY;
+const region = process.env.S3_REGION;
+
+const s3 = new AWS.S3({
+  accessKeyId: accessKeyId,
+  secretAccessKey: secretAccessKey,
+  region: region,
+});
+
+export async function salvarImagem(linkArquivo, nomeArquivo) {
+  const linkLogoLacteus =
+    'https://whatsapp.sac.digital/_midia/galeria/1B4893085C/imagem/1618261905_02dcab75f28b26b0ba33a148a1f75305.jpg';
+  if (!linkArquivo || linkArquivo == linkLogoLacteus) {
+    return null;
+  } else {
+    try {
+      const response = await axios({
+        url: linkArquivo,
+        responseType: 'stream',
+      });
+
+      const params = {
+        Bucket: 'velofuri-atendimento',
+        Key: nomeArquivo,
+        Body: response.data,
+      };
+
+      const { Location } = await s3.upload(params).promise();
+      console.log('Upload do arquivo concluído:', Location);
+      return Location;
+    } catch (error) {
+      console.error('Erro ao buscar ou enviar o arquivo:', error);
+    }
+  }
+}
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export async function salvarImagem(link, nomeDoArquivo) {
+export async function salvarImagem2(link, nomeDoArquivo) {
   const linkLogoLacteus =
     'https://whatsapp.sac.digital/_midia/galeria/1B4893085C/imagem/1618261905_02dcab75f28b26b0ba33a148a1f75305.jpg';
   if (!link || link == linkLogoLacteus) {

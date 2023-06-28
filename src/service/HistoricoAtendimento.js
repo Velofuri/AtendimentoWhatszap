@@ -91,10 +91,10 @@ class HistoricoAtendimento {
             created_at: item.created_at,
             imageSAC: item.image,
             image: await salvarImagem(item.image, `${numeroProtocolo}`),
-            videoSAC: item.video,
-            video: await salvarVideo(item.video, `${numeroProtocolo}`),
-            audioSAC: item.audio,
-            audio: await salvarAudio(item.audio, `${numeroProtocolo}`)
+            // videoSAC: item.video,
+            // video: await salvarVideo(item.video, `${numeroProtocolo}`),
+            // audioSAC: item.audio,
+            // audio: await salvarAudio(item.audio, `${numeroProtocolo}`)
           };
         }));
         const historicoPorProtocolo = {
