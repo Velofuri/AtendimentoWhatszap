@@ -65,7 +65,6 @@ class HistoricoAtendimento {
   }
 
   static async salvarHistoricoPorData(dataInicial, dataFinal) {
-    const dataAtual = new Date();
     try {
       const token = await getToken();
       const protocolos = await HistoricoAtendimento.buscarProtocolosPorData(

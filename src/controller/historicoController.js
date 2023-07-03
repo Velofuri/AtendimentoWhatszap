@@ -16,20 +16,6 @@ class HistoricoControler {
     }
   };
 
-  static salvarHistoricoAtendimentoPorProtocolo = async (req, res) => {
-    try {
-      const { protocolo } = req.params;
-      const registro = await HistoricoAtendimento.salvarHistoricoPorprotocolo(protocolo);
-      if (!registro.success) {
-        res.status(400).json(registro);
-      } else {
-        res.status(201).json(registro);
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  };
-
   static getHistoricoPorProtocolo = async (req, res) => {
     try {
       const { protocolo } = req.params;
