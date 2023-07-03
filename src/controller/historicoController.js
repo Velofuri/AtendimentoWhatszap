@@ -4,8 +4,8 @@ import HistoricoAtendimento from '../service/HistoricoAtendimento.js';
 class HistoricoControler {
   static salvarHistoricoAtendimento = async (req, res) => {
     try {
-      const { data_inicial, data_final } = req.query;
-      const registro = await HistoricoAtendimento.salvarHistoricoPorData(data_inicial, data_final);
+      const { data } = req.query;
+      const registro = await HistoricoAtendimento.salvarHistoricoPorData(data);
       if (!registro.success) {
         res.status(400).json(registro);
       } else {

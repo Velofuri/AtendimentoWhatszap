@@ -20,9 +20,9 @@ class HistoricoAtendimento {
     return historico;
   }
 
-  static async buscarProtocolosPorData(dataInicial, dataFinal, token) {
+  static async buscarProtocolosPorData(dataInicial, token) {
     const response = await fetch(
-      `https://api.sac.digital/v2/client/protocol/search?filter=7&start_at=${dataInicial}&finish_at=${dataFinal}`,
+      `https://api.sac.digital/v2/client/protocol/search?filter=7&start_at=${dataInicial}&finish_at=${dataInicial}`,
       {
         method: 'GET',
         headers: {
@@ -43,11 +43,12 @@ class HistoricoAtendimento {
       await connection.promise().beginTransaction();
       for (const dado of dados) {
         const query =
-          'INSERT INTO aw0 (AW0_protocolo, AW0_nome_contato, AW0_numero_contato, AW0_mensagens) VALUES (?, ?, ?, ?)';
+          'INSERT INTO aw0 (AW0_protocolo, AW0_data, AW0_nome_contato, AW0_numero_contato, AW0_mensagens) VALUES (?, ?, ?, ?, ?)';
         await connection
           .promise()
           .execute(query, [
             dado.protocolo,
+            dado.data,
             dado.nome_contato,
             dado.numero_contato,
             dado.mensagens,
@@ -64,17 +65,17 @@ class HistoricoAtendimento {
     }
   }
 
-  static async salvarHistoricoPorData(dataInicial, dataFinal) {
+  static async salvarHistoricoPorData(dataInicial) {
     try {
       const token = await getToken();
       const protocolos = await HistoricoAtendimento.buscarProtocolosPorData(
         dataInicial,
-        dataFinal,
         token
       );
       const todosProtocolos = protocolos.list.map((itens) => itens.protocol);
       const nomeContato = protocolos.list.map((itens) => itens.contact.name);
       const numeroContato = protocolos.list.map((itens) => itens.contact.number);
+      const dataAtendimento = protocolos.list.map((itens) => itens.opened_at);
 
       let historicosSalvos = [];
       let index = 0;
@@ -99,6 +100,7 @@ class HistoricoAtendimento {
         }));
         const historicoPorProtocolo = {
           protocolo: numeroProtocolo,
+          data: dataAtendimento[index],
           nome_contato: nomeContato[index],
           numero_contato: numeroContato[index],
           mensagens: textoDaMensagem,

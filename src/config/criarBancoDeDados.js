@@ -25,6 +25,7 @@ export function criarTabela() {
       } else {
         connection.query(`CREATE TABLE IF NOT EXISTS AW0 (
           AW0_protocolo VARCHAR(15) PRIMARY KEY,
+          AW0_data DATE,
           AW0_nome_contato VARCHAR(100),
           AW0_numero_contato VARCHAR(15),
           AW0_mensagens JSON);`,
