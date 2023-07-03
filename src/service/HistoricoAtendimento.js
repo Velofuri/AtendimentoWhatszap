@@ -43,7 +43,7 @@ class HistoricoAtendimento {
       await connection.promise().beginTransaction();
       for (const dado of dados) {
         const query =
-          'INSERT INTO aw0 (AW0_protocolo, AW0_data, AW0_nome_contato, AW0_numero_contato, AW0_mensagens) VALUES (?, ?, ?, ?, ?)';
+          'INSERT INTO aw0 (AW0_protocolo, AW0_data, AW0_nome_contato, AW0_numero_contato, AW0_mensagens) VALUES (?, ?, ?, ?)';
         await connection
           .promise()
           .execute(query, [
@@ -51,7 +51,6 @@ class HistoricoAtendimento {
             dado.data,
             dado.nome_contato,
             dado.numero_contato,
-            dado.mensagens,
           ]);
       }
       await connection.promise().commit();
@@ -61,6 +60,24 @@ class HistoricoAtendimento {
       await connection.promise().rollback();
       throw new Error(
         'Ocorreu um erro de inserção, verifique e tente novamente. Erro: ' + error.message
+      );
+    }
+  }
+
+  static async updateTableAW0(dados) {
+    try {
+      await connection.promise().beginTransaction();
+      for (const dado of dados) {
+        const query = 'INSERT INTO aw0 (AW0_mensagens) VALUES (?)';
+        await connection.promise().execute(query, [dado.mensagem]);
+      }
+      await connection.promise().commit();
+      console.log('Texto da mensagem inserido com sucesso.');
+      return true;
+    } catch (error) {
+      await connection.promise().rollback();
+      throw new Error(
+        'Ocorreu um erro de inserção, Texto da mensagem. Erro: ' + error.message
       );
     }
   }
@@ -78,37 +95,44 @@ class HistoricoAtendimento {
       const dataAtendimento = protocolos.list.map((itens) => itens.opened_at);
 
       let historicosSalvos = [];
+      let mensagensSalvas = [];
       let index = 0;
+
+      for (const numeroProtocolo of todosProtocolos) {
+        const historicoPorProtocolo = {
+          protocolo: numeroProtocolo,
+          data: dataAtendimento[index],
+          nome_contato: nomeContato[index],
+          numero_contato: numeroContato[index],
+        };
+        historicosSalvos.push(historicoPorProtocolo);
+        index++;
+      }
+      await HistoricoAtendimento.inserTableAW0(historicosSalvos);
 
       for (const numeroProtocolo of todosProtocolos) {
         const backupPorProtocolo = await HistoricoAtendimento.buscarHistoricoDeMensagem(
           numeroProtocolo,
           token
         );
-        const textoDaMensagem = await Promise.all(backupPorProtocolo.historic.map(async(item) => {
-          return {
-            by: item.by,
-            text: item.text,
-            created_at: item.created_at,
-            imageSAC: item.image,
-            image: await salvarImagem(item.image, `${numeroProtocolo}-${uuidv4()}`),
-            videoSAC: item.video,
-            video: await salvarVideo(item.video, `${numeroProtocolo}-${uuidv4()}`),
-            audioSAC: item.audio,
-            audio: await salvarAudio(item.audio, `${numeroProtocolo}-${uuidv4()}`),
-          };
-        }));
-        const historicoPorProtocolo = {
-          protocolo: numeroProtocolo,
-          data: dataAtendimento[index],
-          nome_contato: nomeContato[index],
-          numero_contato: numeroContato[index],
-          mensagens: textoDaMensagem,
-        };
-        historicosSalvos.push(historicoPorProtocolo);
-        index++;
+        const textoDaMensagem = await Promise.all(
+          backupPorProtocolo.historic.map(async (item) => {
+            return {
+              by: item.by,
+              text: item.text,
+              created_at: item.created_at,
+              imageSAC: item.image,
+              image: await salvarImagem(item.image, `${numeroProtocolo}-${uuidv4()}`),
+              videoSAC: item.video,
+              video: await salvarVideo(item.video, `${numeroProtocolo}-${uuidv4()}`),
+              audioSAC: item.audio,
+              audio: await salvarAudio(item.audio, `${numeroProtocolo}-${uuidv4()}`),
+            };
+          })
+        );
+        mensagensSalvas.push(textoDaMensagem);
       }
-      await HistoricoAtendimento.inserTableAW0(historicosSalvos);
+      await HistoricoAtendimento.updateTableAW0(mensagensSalvas);
 
       logSistema(`Protocolos salvos no banco de dados: ${todosProtocolos} `);
       return { success: true, message: 'Dados salvos no banco de dados.' };
