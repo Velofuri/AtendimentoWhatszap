@@ -1,8 +1,8 @@
 import { getToken } from './getToken.js';
-import connection from '../model/db.js';
 import { logError, logSistema } from '../log/log.js';
 import { salvarAudio, salvarImagem, salvarVideo } from './salvarArquivos.js';
 import { v4 as uuidv4 } from 'uuid';
+import { inserTableAW0, updateTableAW0} from '../model/consultaDB.js'
 
 class HistoricoAtendimento {
   static async buscarHistoricoDeMensagem(protocolo, token) {
@@ -36,51 +36,7 @@ class HistoricoAtendimento {
       throw new Error(protocolos.message);
     }
     return protocolos;
-  }
-
-  static async inserTableAW0(dados) {
-    try {
-      await connection.promise().beginTransaction();
-      for (const dado of dados) {
-        const query =
-          'INSERT INTO aw0 (AW0_protocolo, AW0_data, AW0_nome_contato, AW0_numero_contato, AW0_mensagens) VALUES (?, ?, ?, ?)';
-        await connection
-          .promise()
-          .execute(query, [
-            dado.protocolo,
-            dado.data,
-            dado.nome_contato,
-            dado.numero_contato,
-          ]);
-      }
-      await connection.promise().commit();
-      console.log('Todos os dados foram inseridos com sucesso.');
-      return true;
-    } catch (error) {
-      await connection.promise().rollback();
-      throw new Error(
-        'Ocorreu um erro de inserção, verifique e tente novamente. Erro: ' + error.message
-      );
-    }
-  }
-
-  static async updateTableAW0(dados) {
-    try {
-      await connection.promise().beginTransaction();
-      for (const dado of dados) {
-        const query = 'INSERT INTO aw0 (AW0_mensagens) VALUES (?)';
-        await connection.promise().execute(query, [dado.mensagem]);
-      }
-      await connection.promise().commit();
-      console.log('Texto da mensagem inserido com sucesso.');
-      return true;
-    } catch (error) {
-      await connection.promise().rollback();
-      throw new Error(
-        'Ocorreu um erro de inserção, Texto da mensagem. Erro: ' + error.message
-      );
-    }
-  }
+  }  
 
   static async salvarHistoricoPorData(dataInicial) {
     try {
@@ -108,7 +64,7 @@ class HistoricoAtendimento {
         historicosSalvos.push(historicoPorProtocolo);
         index++;
       }
-      await HistoricoAtendimento.inserTableAW0(historicosSalvos);
+      await inserTableAW0(historicosSalvos);
 
       for (const numeroProtocolo of todosProtocolos) {
         const backupPorProtocolo = await HistoricoAtendimento.buscarHistoricoDeMensagem(
@@ -130,9 +86,14 @@ class HistoricoAtendimento {
             };
           })
         );
-        mensagensSalvas.push(textoDaMensagem);
+        const mensagemPorProtocolo = {
+          protocolo: numeroProtocolo,
+          mensagens: textoDaMensagem,
+        };
+        mensagensSalvas.push(mensagemPorProtocolo);
       }
-      await HistoricoAtendimento.updateTableAW0(mensagensSalvas);
+
+      await updateTableAW0(mensagensSalvas);
 
       logSistema(`Protocolos salvos no banco de dados: ${todosProtocolos} `);
       return { success: true, message: 'Dados salvos no banco de dados.' };

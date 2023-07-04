@@ -1,4 +1,4 @@
-import { consultaBancoPorProtocolo } from '../model/consultaBancoPorProtocolo.js';
+import { consultaTableAW0 } from '../model/consultaDB.js';
 import HistoricoAtendimento from '../service/HistoricoAtendimento.js';
 
 class HistoricoControler {
@@ -16,15 +16,15 @@ class HistoricoControler {
     }
   };
 
-  static getHistoricoPorProtocolo = async (req, res) => {
+  static consultaHistoricoAtendimento = async (req, res) => {
     try {
-      const { protocolo } = req.params;
-      const historico = await consultaBancoPorProtocolo(protocolo)
+      const { protocolo, data, nome } = req.query;
+      const historico = await consultaTableAW0(protocolo, data, nome);
       res.json(historico);
     } catch (error) {
       res.status(400).send(error.message);
     }
-  }
+  };
 }
 
 export default HistoricoControler;

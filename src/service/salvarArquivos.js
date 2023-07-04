@@ -1,6 +1,5 @@
 import axios from 'axios';
 import AWS from 'aws-sdk';
-// import 'dotenv/config';
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.S3_ACCESSKEYID,
