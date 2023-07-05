@@ -1,5 +1,6 @@
 import { consultaTableAW0 } from '../model/consultaDB.js';
 import HistoricoAtendimento from '../service/HistoricoAtendimento.js';
+import { logRequest, logError, logSistema } from '../log/log.js';
 
 class HistoricoControler {
   static salvarHistoricoAtendimento = async (req, res) => {
@@ -12,6 +13,7 @@ class HistoricoControler {
         res.status(201).json(registro);
       }
     } catch (error) {
+      logError(error, "Controller error")
       res.status(400).send(error.message);
     }
   };
@@ -20,8 +22,10 @@ class HistoricoControler {
     try {
       const { protocolo, data, nome } = req.query;
       const historico = await consultaTableAW0(protocolo, data, nome);
-      res.json(historico);
+      logRequest(req);
+      res.status(200).json(historico);
     } catch (error) {
+      logError(error, 'Erro ao realizar consulta do historico de atendimento');
       res.status(400).send(error.message);
     }
   };

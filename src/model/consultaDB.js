@@ -12,7 +12,7 @@ export async function consultaTableAW0(protocolo, data, nome) {
     if (nome) {
       query += `AND AW0_nome_contato LIKE '%${nome}%'`;
     }
-    const [rows, fields] = await connection.promise().execute(query);
+    const [rows] = await connection.promise().execute(query);
     return rows;
   } catch (error) {
     console.error(error);
@@ -36,7 +36,7 @@ export async function inserTableAW0(dados) {
         ]);
     }
     await connection.promise().commit();
-    console.log('Dados inseridos com sucesso.');
+    console.log('Dados inseridos no banco de dados, ...aguarde upload dos arquivos.');
     return true;
   } catch (error) {
     await connection.promise().rollback();
@@ -53,7 +53,7 @@ export async function updateTableAW0(dados) {
       await connection.promise().execute(query, [dado.mensagens, dado.protocolo]);
     }
     await connection.promise().commit();
-    console.log('Texto da mensagem inserido com sucesso.');
+    console.log('Upload dos arquivos realizado com sucesso!.');
     return true;
   } catch (error) {
     await connection.promise().rollback();

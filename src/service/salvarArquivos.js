@@ -26,7 +26,7 @@ export async function salvarImagem(linkArquivo, nomeArquivo) {
       };
 
       const { Location } = await s3.upload(params).promise();
-      console.log('Upload do arquivo concluído:', Location);
+      console.log('Upload do arquivo:', Location);
       return Location;
     } catch (error) {
       console.error('Erro ao enviar o arquivo:', error);
@@ -51,7 +51,7 @@ export async function salvarVideo(linkArquivo, nomeArquivo) {
       };
 
       const { Location } = await s3.upload(params).promise();
-      console.log('Upload do arquivo concluído:', Location);
+      console.log('Upload do arquivo:', Location);
       return Location;
     } catch (error) {
       console.error('Erro ao enviar o arquivo:', error);
@@ -76,7 +76,7 @@ export async function salvarAudio(linkArquivo, nomeArquivo) {
       };
 
       const { Location } = await s3.upload(params).promise();
-      console.log('Upload do arquivo concluído:', Location);
+      console.log('Upload do arquivo:', Location);
       return Location;
     } catch (error) {
       console.error('Erro ao enviar o arquivo:', error);
