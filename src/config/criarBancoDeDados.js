@@ -1,9 +1,10 @@
 import mysql from "mysql2";
+import 'dotenv/config';
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root'
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD_DB,
 });
 
 export function criarBancoDeDados() {

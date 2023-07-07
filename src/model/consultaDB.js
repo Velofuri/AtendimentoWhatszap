@@ -25,7 +25,7 @@ export async function inserTableAW0(dados) {
     await connection.promise().beginTransaction();
     for (const dado of dados) {
       const query =
-        'INSERT INTO aw0 (AW0_protocolo, AW0_data, AW0_nome_contato, AW0_numero_contato) VALUES (?, ?, ?, ?)';
+        'INSERT INTO AW0 (AW0_protocolo, AW0_data, AW0_nome_contato, AW0_numero_contato) VALUES (?, ?, ?, ?)';
       await connection
         .promise()
         .execute(query, [
@@ -49,7 +49,7 @@ export async function updateTableAW0(dados) {
   try {
     await connection.promise().beginTransaction();
     for (const dado of dados) {
-      const query = 'UPDATE aw0 SET AW0_mensagens = ? WHERE AW0_protocolo = ?';
+      const query = 'UPDATE AW0 SET AW0_mensagens = ? WHERE AW0_protocolo = ?';
       await connection.promise().execute(query, [dado.mensagens, dado.protocolo]);
     }
     await connection.promise().commit();
