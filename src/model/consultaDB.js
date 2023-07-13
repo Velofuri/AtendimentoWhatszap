@@ -2,7 +2,7 @@ import connection from './db.js';
 
 export async function consultaTableAW0(protocolo, data, nome) {
   try {
-    let query = `SELECT * FROM AW0 WHERE 1=1 `;
+    let query = `SELECT AW0_protocolo as Protocolo, AW0_data as Data, AW0_nome_contato as Nome_contato, AW0_mensagens as mensagens FROM AW0 WHERE 1=1 `;
     if (protocolo) {
       query += `AND AW0_protocolo = '${protocolo}'`;
     }
