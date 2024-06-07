@@ -1,4 +1,4 @@
-import mysql from "mysql2";
+import mysql from 'mysql2';
 import 'dotenv/config';
 
 const connection = mysql.createConnection({
@@ -19,36 +19,35 @@ export function criarBancoDeDados() {
 }
 
 export function criarTabela() {
-  connection.query(
-    `USE backup_atendimento;`, (error) => {
-      if (error) {
-        console.error('Erro ao selecionar o banco de dados: ', error.message)
-      } else {
-        connection.query(`CREATE TABLE IF NOT EXISTS AW0 (
+  connection.query(`USE backup_atendimento;`, (error) => {
+    if (error) {
+      console.error('Erro ao selecionar o banco de dados: ', error.message);
+    } else {
+      connection.query(
+        `CREATE TABLE IF NOT EXISTS AW0 (
           AW0_protocolo VARCHAR(15) PRIMARY KEY,
           AW0_data DATE,
           AW0_nome_contato VARCHAR(100),
           AW0_numero_contato VARCHAR(15),
           AW0_mensagens JSON);`,
-          (error) => {
-            if (error) {
-              console.error('Erro ao criar a tabela', error.message);
-            } else {
-              console.log('Tabela criada com sucesso!');
-            }
-            connection.end();
-          })
-      }
+        (error) => {
+          if (error) {
+            console.error('Erro ao criar a tabela', error.message);
+          } else {
+            console.log('Tabela criada com sucesso!');
+          }
+          connection.end();
+        }
+      );
     }
-    
-  );
+  });
 }
 
 connection.connect((error) => {
   if (error) {
-    console.error("Falha na conexão", error.message)
+    console.error('Falha na conexão', error.message);
   } else {
-    console.log('conecxão estabelecida com sucesso!')
+    console.log('conecxão estabelecida com sucesso!');
     criarBancoDeDados();
   }
-})
+});
