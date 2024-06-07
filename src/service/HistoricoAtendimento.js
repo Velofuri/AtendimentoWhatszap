@@ -114,9 +114,9 @@ class HistoricoAtendimento {
               text: item.text,
               created_at: item.created_at,
               imageSAC: item.image,
-              image: await salvarImagem(item.image, `${numeroProtocolo}-${uuidv4()}`),
+              // image: await salvarImagem(item.image, `${numeroProtocolo}-${uuidv4()}`),
               videoSAC: item.video,
-              video: await salvarVideo(item.video, `${numeroProtocolo}-${uuidv4()}`),
+              // video: await salvarVideo(item.video, `${numeroProtocolo}-${uuidv4()}`),
               audioSAC: item.audio,
               audio: await salvarAudio(item.audio, `${numeroProtocolo}-${uuidv4()}`),
             }
